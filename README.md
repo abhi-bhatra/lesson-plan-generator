@@ -42,6 +42,19 @@ export OPENAI_MODEL="YOUR_MODEL_NAME"
 streamlit run app.py
 ```
 
+## CI/CD (GitHub Actions)
+
+The repo includes a workflow (`.github/workflows/deploy-cloudrun.yml`) that deploys to **Google Cloud Run** on every push to `main`, using project `kk-lab-dev` and service `kk-ai-lesson-plan-generator`.
+
+**Required GitHub secrets:**
+
+| Secret         | Description |
+|----------------|-------------|
+| `GCP_SA_KEY`   | JSON key for a GCP service account that can deploy to Cloud Run (Cloud Run Admin, Service Account User, and optionally Storage for build). |
+| `OPENAI_API_KEY` | Your OpenAI API key; passed to the Cloud Run service as an env var. |
+
+Create the service account in [GCP IAM](https://console.cloud.google.com/iam-admin/serviceaccounts) (project `kk-lab-dev`), grant **Cloud Run Admin** and **Service Account User**, create a key, and paste the JSON into the `GCP_SA_KEY` secret. Add `OPENAI_API_KEY` in repo **Settings → Secrets and variables → Actions**.
+
 ## Teaching notes (quick talking points)
 
 - The prompt forces a **structured JSON schema** → you can parse it and build UI.
